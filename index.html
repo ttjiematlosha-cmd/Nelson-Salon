@@ -1590,8 +1590,8 @@ footer li {
   /* HERO IMAGE AS BACKGROUND */
 
     .hero {
-    min-height: 100vh;
-    height: 100vh;
+    min-height: 100svh;
+    height: 100svh;
     padding: 0;
     position: relative;
     display: flex;
@@ -1599,16 +1599,17 @@ footer li {
     isolation: isolate;
     overflow: hidden;
     text-align: center;
+    margin: 0px;
 }
 
   .hero-grid {
     display: block;
     width: 100%;
-    padding: 0px 5px;
+    padding: 0px;
     position: relative;
     z-index: 2;
     text-align: center;
-}
+    margin: 0px;
 
   /* BLURRED AREA BEHIND TEXT */
 
@@ -1626,6 +1627,7 @@ footer li {
     -webkit-backdrop-filter: blur(4px);
     border-radius: 18px;
     z-index: -1;
+    margin: 0px;
   }
 
   /* IMAGE FULL BACKGROUND */
@@ -2645,7 +2647,7 @@ const pricingData = [
             "Simple grooming services to keep you looking clean, sharp and fresh.",
 
         image:
-            "images (4).jpeg",
+            "salon img/images (4).jpeg",
 
         prices: [
             ["Chiskop", "R25"],
@@ -2920,7 +2922,7 @@ const gallery = [
   {
     cat: 'cuts',
     title: 'Fresh Cut',
-    img: 'images (4).jpeg'
+    img: 'salon img/images (4).jpeg'
   }
 
 ];
