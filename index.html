@@ -2894,6 +2894,116 @@ priceFilters.forEach(button => {
 
 displayPricing("all");
 
+function displayPricing(category = "all") {
+
+    pricingGrid.innerHTML = "";
+
+    const filteredPrices =
+        category === "all"
+        ? pricingData
+        : pricingData.filter(
+            item => item.category === category
+        );
+
+    filteredPrices.forEach(service => {
+
+        const card =
+            document.createElement("article");
+
+        card.className = "price-card";
+
+        const priceItems =
+            service.prices.map(price => `
+
+                <li>
+                    <span class="price-name">
+                        ${price[0]}
+                    </span>
+
+                    <span class="price-value">
+                        ${price[1]}
+                    </span>
+                </li>
+
+            `).join("");
+
+        card.innerHTML = `
+
+            <div
+                class="price-card-image"
+                style="background-image:
+                url('${service.image}');">
+            </div>
+
+            <div class="price-card-content">
+
+                <div class="price-card-title">
+                    <h3>
+                        ${service.title}
+                    </h3>
+                </div>
+
+                <p class="price-card-description">
+                    ${service.description}
+                </p>
+
+                <ul class="price-list">
+                    ${priceItems}
+                </ul>
+
+                <div class="price-special">
+
+                    <span class="price-special-label">
+                        🔥 SPECIAL
+                    </span>
+
+                    <span class="price-special-text">
+                        ${service.special}
+                    </span>
+
+                </div>
+
+                <div class="price-card-actions">
+
+                    <a
+                        class="price-book"
+                        href="${createWhatsAppLink(service.bookingMessage)}"
+                        target="_blank"
+                    >
+                        💬 Book ${service.title.replace(/^.\s/, "")}
+                    </a>
+
+                    <a
+                        class="price-gallery"
+                        href="javascript:void(0)"
+                    >
+                        View Full Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+        card.addEventListener("click", function(event) {
+
+            if (
+                event.target.closest(".price-book")
+            ) {
+                return;
+            }
+
+            openPricingModal(service);
+
+        });
+
+        pricingGrid.appendChild(card);
+
+    });
+
+}
+  
 
 const gallery = [
 
