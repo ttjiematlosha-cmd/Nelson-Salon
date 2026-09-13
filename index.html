@@ -2892,61 +2892,249 @@ priceFilters.forEach(button => {
    LOAD ALL SERVICES WHEN PAGE OPENS
 ========================================= */
 
-displayPricing("all");
+function displayPricing(category = "all") {
+
+    pricingGrid.innerHTML = "";
+
+    const filteredPrices =
+        category === "all"
+        ? pricingData
+        : pricingData.filter(
+            item => item.category === category
+        );
+
+    filteredPrices.forEach(service => {
+
+        const card =
+            document.createElement("article");
+
+        card.className = "price-card";
+
+        const priceItems =
+            service.prices.map(price => `
+
+                <li>
+                    <span class="price-name">
+                        ${price[0]}
+                    </span>
+
+                    <span class="price-value">
+                        ${price[1]}
+                    </span>
+                </li>
+
+            `).join("");
+
+        card.innerHTML = `
+
+            <div
+                class="price-card-image"
+                style="background-image:
+                url('${service.image}');">
+            </div>
+
+            <div class="price-card-content">
+
+                <div class="price-card-title">
+                    <h3>
+                        ${service.title}
+                    </h3>
+                </div>
+
+                <p class="price-card-description">
+                    ${service.description}
+                </p>
+
+                <ul class="price-list">
+                    ${priceItems}
+                </ul>
+
+                <div
+    class="price-special"
+    data-special="true"
+>
+
+    <span class="price-special-label">
+        🔥 SPECIAL
+    </span>
+
+    <span class="price-special-text">
+        ${service.special}
+    </span>
+
+</div>
+
+                <div class="price-card-actions">
+
+                    <a
+                        class="price-book"
+                        href="${createWhatsAppLink(service.bookingMessage)}"
+                        target="_blank"
+                    >
+                        💬 Book ${service.title.replace(/^.\s/, "")}
+                    </a>
+
+                    <a
+                        class="price-gallery"
+                        href="javascript:void(0)"
+                    >
+                        View Full Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
 
 
-const gallery = [
+        /* =========================================
+           CLICK PRICING CARD → OPEN MODAL
+        ========================================= */
 
-  {
-    cat: 'nails',
-    title: 'Pink Acrylic Nails',
-    img: 'salon img/fb43911c-4277-4027-a945-e82ea311bdb4-GlowGangStudio-ZA-WesternCape-CapeTown-Belhar6-Fresha.jpg'
-  },
+        card.addEventListener("click", function(event) {
 
-  {
-    cat: 'cuts',
-    title: 'Clean Fade',
-    img: 'salon img/Hair-cut-centurion-pretoria.jpg'
-  },
+            /*
+             * Don't open the modal when the user
+             * clicks the WhatsApp booking button.
+             */
 
-  {
-    cat: 'braids',
-    title: 'Box Braids',
-    img: 'salon img/images (7).jpeg'
-  },
+            if (
+                event.target.closest(".price-book")
+            ) {
+                return;
+            }
 
-  {
-    cat: 'nails',
-    title: 'Elegant Nail Set',
-    img: 'salon img/12-1024x712 (1).jpg'
-  },
 
-  {
-    cat: 'cuts',
-    title: 'Modern Haircut',
-    img: 'salon img/images.jpeg'
-  },
+            openPricingModal(service);
 
-  {
-    cat: 'braids',
-    title: 'Braided Style',
-    img: 'salon img/ba1923e9e11ce40623a26e72caf859d3.jpg'
-  },
+        });
 
-  {
-    cat: 'nails',
-    title: 'Nail Art',
-    img: 'salon img/images (17).jpeg'
-  },
 
-  {
-    cat: 'cuts',
-    title: 'Fresh Cut',
-    img: 'salon img/images (1).jpeg'
-  }
+        pricingGrid.appendChild(card);
 
-];
+    });
 
+}
+
+/* =========================================
+   PRICING → FULL SCREEN MODAL
+========================================= */
+
+function openPricingModal(service) {
+
+    chosen = service.title;
+
+
+    const modal =
+        document.getElementById("modal");
+
+    const modalTitle =
+        document.getElementById("modalTitle");
+
+    const modalImg =
+        document.getElementById("modalImg");
+
+    const modalWa =
+        document.getElementById("modalWa");
+
+
+    /* TITLE */
+
+    modalTitle.textContent =
+        service.title;
+
+
+    /* FULL IMAGE */
+
+    modalImg.src =
+        service.image;
+
+    modalImg.alt =
+        service.title;
+
+
+    /* WHATSAPP BUTTON */
+
+    modalWa.href =
+        createWhatsAppLink(
+            service.bookingMessage
+        );
+
+
+    /*
+     * Change the text inside the modal
+     * without changing the HTML.
+     */
+
+    const modalBox =
+        modal.querySelector(".modal-box");
+
+
+    const oldInfo =
+        modalBox.querySelector(".pricing-modal-info");
+
+
+    if (oldInfo) {
+        oldInfo.remove();
+    }
+
+
+    const info =
+        document.createElement("div");
+
+    info.className =
+        "pricing-modal-info";
+
+
+    const prices =
+        service.prices
+            .map(price => `
+                <div>
+                    <span>${price[0]}</span>
+                    <strong>${price[1]}</strong>
+                </div>
+            `)
+            .join("");
+
+
+    info.innerHTML = `
+
+        <p>
+            ${service.description}
+        </p>
+
+        <div class="pricing-modal-prices">
+            ${prices}
+        </div>
+
+        <div class="pricing-modal-special">
+            🔥 ${service.special}
+        </div>
+
+    `;
+
+
+    /*
+     * Put the pricing information
+     * before the modal action buttons.
+     */
+
+    const actions =
+        modalBox.querySelector(".modal-actions");
+
+
+    modalBox.insertBefore(
+        info,
+        actions
+    );
+
+
+    /* OPEN MODAL */
+
+    modal.classList.add("show");
+
+}  
 
 
 function renderGallery(cat = 'all') {
