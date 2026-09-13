@@ -2994,29 +2994,14 @@ function displayPricing(category = "all") {
 
         card.addEventListener("click", function(event) {
 
-            /*
-             * Don't open the modal when the user
-             * clicks the WhatsApp booking button.
-             */
+    /* WhatsApp button should work normally */
+    if (event.target.closest(".price-book")) {
+        return;
+    }
 
-            if (
-                event.target.closest(".price-book")
-            ) {
-                return;
-            }
+    openPricingModal(service);
 
-
-            openPricingModal(service);
-
-        });
-
-
-        pricingGrid.appendChild(card);
-
-    });
-
-}
-
+});
 /* =========================================
    PRICING → FULL SCREEN MODAL
 ========================================= */
