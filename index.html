@@ -694,11 +694,14 @@ section {
 ========================================= */
 
 .price-card-image {
-    min-height: 100%;
+    width: 100%;
+    min-height: 390px;
 
     background-size: cover;
-    background-position: center;
+    background-position: center center;
     background-repeat: no-repeat;
+
+    overflow: hidden;
 }
 
 
@@ -1157,7 +1160,14 @@ section {
 
         min-height: 360px;
     }
+    
+    .price-card-image {
+    min-height: 360px;
 
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
 
     .price-card-content {
         padding: 18px;
@@ -1203,15 +1213,20 @@ section {
     }
 
 
-    .specials-items {
-        overflow-x: auto;
-    }
+    
+.specials-items {
+    display: grid;
 
+    grid-template-columns: 1fr 1fr;
 
-    .special-mini {
-        flex-shrink: 0;
-    }
+    gap: 12px;
 
+    overflow: visible;
+}
+
+.special-mini {
+    width: 100%;
+}
 
     .specials-whatsapp {
         width: 100%;
